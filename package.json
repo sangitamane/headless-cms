@@ -5,24 +5,15 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "faust dev",
-    "build": "faust build",
-    "generate": "faust generatePossibleTypes",
-    "start": "faust start"
+    "start": "node src/app.js",
+    "build": "echo \"Error: no npm build specified\" && exit 1"
   },
   "author": "Springer Nature",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "express": "^4.21.1",
-    "express-handlebars": "^8.0.1",
-    "@apollo/client": "^3.7.7",
-    "@faustwp/cli": "^3.1.0",
-    "@faustwp/core": "^3.1.0",
-    "graphql": "^16.6.0",
-    "next": "^14.2.10",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "express-handlebars": "^8.0.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
