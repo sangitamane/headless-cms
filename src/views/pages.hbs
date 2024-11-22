@@ -1,0 +1,9 @@
+<h1>{{title}}</h1>
+<ul>
+  {{#each pages}}
+    <li>
+      <h2>{{this.title.rendered}}</h2>
+      <p>{{{this.content.rendered}}}</p>
+    </li>
+  {{/each}}
+</ul>

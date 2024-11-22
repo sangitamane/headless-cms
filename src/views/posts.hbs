@@ -1,8 +1,10 @@
+<h1>{{title}}</h1>
 <ul>
-	{{#each posts}}
-		<li>
-			<h2>{{this.title.rendered}}</h2>
-			<div>{{{this.content.rendered}}}</div>
-		</li>
-	{{/each}}
+  {{#each posts}}
+	<li>
+		<h2>{{this.title.rendered}}</h2>
+		<p>{{{this.excerpt.rendered}}}</p>
+		<a href="/post/{{this.id}}">Read more</a>
+	</li>
+  {{/each}}
 </ul>
