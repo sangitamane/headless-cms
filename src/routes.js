@@ -24,10 +24,13 @@ router.get('/', (request, res) => {
 router.get('/posts', async (req, res) => {
 	try {
 		const posts = await apiFetch({ path: '/wp/v2/posts' });
-		res.json(posts);
-	} catch (error) {
+		res.render('posts', {
+		  title: 'WordPress Posts',
+		  posts: posts
+		});
+	  } catch (error) {
 		res.status(500).json({ error: error.message });
-	}
+	  }
 });
 
 export {router};

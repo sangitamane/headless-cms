@@ -1,0 +1,8 @@
+<ul>
+    {{#each posts}}
+      <li>
+        <h2>{{this.title.rendered}}</h2>
+        <div>{{{this.content.rendered}}}</div>
+      </li>
+    {{/each}}
+  </ul>
