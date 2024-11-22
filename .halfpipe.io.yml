@@ -1,0 +1,30 @@
+team: frontenddevs
+pipeline: cms-spike-base
+slack_channel: #collab-fed-cms-spike-alerts
+
+feature_toggles:
+- update-pipeline
+
+triggers:
+- type: git
+  watched_paths:
+  - base
+
+tasks:
+- type: run
+  name: build
+  script: ./bin/build.sh
+  docker:
+    image: eu.gcr.io/halfpipe-io/build-nvm
+  save_artifacts:
+  - .
+- type: deploy-cf
+  name: deploy-live
+  deploy_artifact: .
+  api: ((cloudfoundry.api-snpaas))
+  username: ((cloudfoundry.username-snpaas))
+  password: ((cloudfoundry.password-snpaas))
+  space: live
+  manifest: ./manifest.yml
+  vars:
+    NODE_ENV: production

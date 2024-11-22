@@ -1,0 +1,269 @@
+# Generated using halfpipe cli version 3.156.1 from file base/.halfpipe.io.yml for team frontenddevs
+jobs:
+- build_log_retention:
+    minimum_succeeded_builds: 1
+  name: update
+  plan:
+  - attempts: 2
+    get: git
+    timeout: 15m
+    trigger: true
+  - attempts: 2
+    config:
+      image_resource:
+        name: ""
+        source:
+          password: ((halfpipe-gcr.private_key))
+          registry_mirror:
+            host: eu-mirror.gcr.io
+          repository: eu.gcr.io/halfpipe-io/halfpipe-auto-update
+          tag: latest
+          username: _json_key
+        type: registry-image
+      inputs:
+      - name: git
+      params:
+        CONCOURSE_PASSWORD: ((concourse.password))
+        CONCOURSE_TEAM: ((concourse.team))
+        CONCOURSE_URL: ((concourse.url))
+        CONCOURSE_USERNAME: ((concourse.username))
+        HALFPIPE_DOMAIN: halfpipe.io
+        HALFPIPE_FILE_PATH: .halfpipe.io.yml
+        HALFPIPE_PROJECT: halfpipe-io
+        PIPELINE_NAME: cms-spike-base
+      platform: linux
+      run:
+        dir: git/base
+        path: update-pipeline
+    task: update
+    timeout: 15m
+  - attempts: 2
+    no_get: true
+    params:
+      bump: minor
+    put: version
+    timeout: 15m
+  serial: true
+- build_log_retention:
+    minimum_succeeded_builds: 1
+  name: build
+  plan:
+  - attempts: 2
+    in_parallel:
+      fail_fast: true
+      steps:
+      - get: git
+        passed:
+        - update
+      - get: version
+        passed:
+        - update
+        trigger: true
+    timeout: 15m
+  - config:
+      caches:
+      - path: ../../../var/halfpipe/cache
+      - path: ../../../halfpipe-cache
+      image_resource:
+        name: ""
+        source:
+          password: ((halfpipe-gcr.private_key))
+          registry_mirror:
+            host: eu-mirror.gcr.io
+          repository: eu.gcr.io/halfpipe-io/build-nvm
+          tag: latest
+          username: _json_key
+        type: registry-image
+      inputs:
+      - name: git
+      - name: version
+      outputs:
+      - name: artifacts-out
+      params:
+        ARTIFACTORY_PASSWORD: ((artifactory.password))
+        ARTIFACTORY_URL: ((artifactory.url))
+        ARTIFACTORY_USERNAME: ((artifactory.username))
+        RUNNING_IN_CI: "true"
+      platform: linux
+      run:
+        args:
+        - -c
+        - |-
+          if ! which bash > /dev/null && [ "$SUPPRESS_BASH_WARNING" != "true" ]; then
+            echo "WARNING: Bash is not present in the docker image"
+            echo "If your script depends on bash you will get a strange error message like:"
+            echo "  sh: yourscript.sh: command not found"
+            echo "To fix, make sure your docker image contains bash!"
+            echo "Or if you are sure you don't need bash you can suppress this warning by setting the environment variable \"SUPPRESS_BASH_WARNING\" to \"true\"."
+            echo ""
+            echo ""
+          fi
+
+          if [ -e /etc/alpine-release ]
+          then
+            echo "WARNING: you are running your build in a Alpine image or one that is based on the Alpine"
+            echo "There is a known issue where DNS resolving does not work as expected"
+            echo "https://github.com/gliderlabs/docker-alpine/issues/255"
+            echo "If you see any errors related to resolving hostnames the best course of action is to switch to another image"
+            echo "we recommend debian:buster-slim as an alternative"
+            echo ""
+            echo ""
+          fi
+
+          copyArtifact() {
+            ARTIFACT=$1
+            ARTIFACT_OUT_PATH=$2
+
+            if [ -e $ARTIFACT ] ; then
+              mkdir -p $ARTIFACT_OUT_PATH
+              cp -r $ARTIFACT $ARTIFACT_OUT_PATH
+            else
+              echo "ERROR: Artifact '$ARTIFACT' not found. Try fly hijack to check the filesystem."
+              exit 1
+            fi
+          }
+
+          export GIT_REVISION=`cat ../.git/ref`
+          export BUILD_VERSION=`cat ../../version/version`
+
+          ./bin/build.sh
+          EXIT_STATUS=$?
+          if [ $EXIT_STATUS != 0 ] ; then
+            exit 1
+          fi
+
+          # Artifacts to copy from task
+          copyArtifact . ../../artifacts-out/base
+        dir: git/base
+        path: /bin/sh
+    task: build
+    timeout: 1h
+  - attempts: 2
+    no_get: true
+    params:
+      folder: artifacts-out
+      version_file: git/.git/ref
+    put: artifacts
+    timeout: 15m
+  serial: true
+- build_log_retention:
+    minimum_succeeded_builds: 1
+  name: deploy-live
+  plan:
+  - attempts: 2
+    in_parallel:
+      fail_fast: true
+      steps:
+      - get: git
+        passed:
+        - build
+      - get: version
+        passed:
+        - build
+        trigger: true
+    timeout: 15m
+  - attempts: 2
+    config:
+      image_resource:
+        name: ""
+        source:
+          password: ((halfpipe-gcr.private_key))
+          repository: eu.gcr.io/halfpipe-io/gcp-resource
+          tag: stable
+          username: _json_key
+        type: registry-image
+      inputs:
+      - name: git
+      outputs:
+      - name: artifacts
+      params:
+        BUCKET: ((halfpipe-artifacts.bucket))
+        FOLDER: frontenddevs/cms-spike-base
+        JSON_KEY: ((halfpipe-artifacts.private_key))
+        VERSION_FILE: git/.git/ref
+      platform: linux
+      run:
+        args:
+        - .
+        dir: artifacts
+        path: /opt/resource/download
+    task: get-artifact
+    timeout: 15m
+  - attempts: 2
+    no_get: true
+    on_failure:
+      no_get: true
+      params:
+        cliVersion: cf7
+        command: halfpipe-logs
+        manifestPath: git/base/manifest.yml
+      put: cf-logs
+      resource: cf-snpaas-live
+    params:
+      appPath: artifacts/base
+      buildVersionPath: version/version
+      cliVersion: cf7
+      command: halfpipe-all
+      gitRefPath: git/.git/ref
+      gitUri: git@github.com:springernature/headless-cms-spike.git
+      manifestPath: git/base/manifest.yml
+      team: frontenddevs
+      testDomain: springernature.app
+      timeout: 1h
+      vars:
+        NODE_ENV: production
+    put: halfpipe-all
+    resource: cf-snpaas-live
+    timeout: 1h
+  serial: true
+resource_types:
+- check_every: 24h0m0s
+  name: gcp-resource
+  source:
+    password: ((halfpipe-gcr.private_key))
+    repository: eu.gcr.io/halfpipe-io/gcp-resource
+    tag: stable
+    username: _json_key
+  type: registry-image
+- check_every: 24h0m0s
+  name: cf-resource
+  source:
+    password: ((halfpipe-gcr.private_key))
+    repository: eu.gcr.io/halfpipe-io/cf-resource-v2
+    username: _json_key
+  type: registry-image
+resources:
+- check_every: 10m0s
+  name: git
+  source:
+    branch: main
+    paths:
+    - base
+    private_key: ((halfpipe-github.private_key))
+    uri: git@github.com:springernature/headless-cms-spike.git
+  type: git
+- check_every: 24h0m0s
+  name: artifacts
+  source:
+    bucket: ((halfpipe-artifacts.bucket))
+    folder: frontenddevs/cms-spike-base
+    json_key: ((halfpipe-artifacts.private_key))
+  type: gcp-resource
+- check_every: 24h0m0s
+  name: version
+  source:
+    bucket: ((halfpipe-semver.bucket))
+    driver: gcs
+    json_key: ((halfpipe-semver.private_key))
+    key: frontenddevs-cms-spike-base
+  type: semver
+- check_every: 24h0m0s
+  name: cf-snpaas-live
+  source:
+    api: ((cloudfoundry.api-snpaas))
+    org: ((cloudfoundry.org-snpaas))
+    password: ((cloudfoundry.password-snpaas))
+    space: live
+    username: ((cloudfoundry.username-snpaas))
+  type: cf-resource
+

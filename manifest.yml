@@ -1,0 +1,11 @@
+---
+applications:
+  - name: fed-cms-spike-base
+    command: npm start
+    instances: 2
+    memory: 64M
+    stack: cflinuxfs4
+    routes:
+      - route: fed-cms-spike-base.public.springernature.app
+    buildpacks:
+      - https://github.com/cloudfoundry/nodejs-buildpack#v1.8.30
