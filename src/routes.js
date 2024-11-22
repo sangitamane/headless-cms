@@ -1,9 +1,6 @@
 import express from 'express';
 import apiFetch from '@wordpress/api-fetch';
 
-apiFetch( { path: '/wp/v2/posts' } ).then( ( posts ) => {
-	console.log( posts );
-} );
 
 const router = new express.Router();
 const environment = process.env.NODE_ENV || 'production';
