@@ -1,5 +1,4 @@
 import express from 'express';
-import apiFetch from '@wordpress/api-fetch';
 import fetch from 'node-fetch';
 
 
@@ -54,7 +53,11 @@ router.get('/posts', async (req, res) => {
 		}
 		`;
 	const data = await fetchGraphQL(query);
-	res.render('posts', { posts: data.data.posts.nodes });
+	res.render('posts', { 
+		title: 'Posts from wordpress admin',
+		posts: data.data.posts.nodes 
+	
+	});
 
 });
 
