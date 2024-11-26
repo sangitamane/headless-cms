@@ -1,0 +1,251 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "https://springernature.com/eds-c-header.schema.json",
+	"title": "Header",
+	"description": "Header component",
+	"type": "object",
+	"properties": {
+		"variantDataAttribute": { "type": "string" },
+		"logo": {
+			"type": "object",
+			"properties": {
+				"link": { "type": "string" },
+				"src": { "type": "string" },
+				"alt": { "type": "string" },
+				"dataAttributes": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string",
+								"enum": [
+									"test",
+									"track",
+									"track-context",
+									"track-value",
+									"track-method",
+									"track-content-type",
+									"track-item-id",
+									"track-type",
+									"track-action",
+									"track-category",
+									"track-label",
+									"track-component"
+								]
+							},
+							"value": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"name",
+							"value"
+						]
+					}
+				}
+			},
+			"required": ["src", "alt"]
+		},
+		"loggedIn": { "type": "boolean" },
+		"snid": { "type": "boolean" },
+		"snidTemplate": { "type": "string" },
+		"loginLink": {
+			"type": "object",
+			"properties": {
+				"url": { "type": "string" },
+				"text": { "type": "string" },
+				"icon": { "type": "string" },
+				"dataAttributes": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string",
+								"enum": [
+									"test",
+									"track",
+									"track-context",
+									"track-value",
+									"track-method",
+									"track-content-type",
+									"track-item-id",
+									"track-type",
+									"track-action",
+									"track-category",
+									"track-label",
+									"track-component"
+								]
+							},
+							"value": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"name",
+							"value"
+						]
+					}
+				}
+			},
+			"required": ["url", "text"]
+		},
+		"accountTitle": { "type": "string" },
+		"headerNavigation": {
+			"type": "object",
+			"properties": {
+				"navigationText": { "type": "string" },
+				"searchText": { "type": "string" },
+				"iconSearch": { "type": "string" },
+				"iconMenu": { "type": "string" },
+				"links": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"url": { "type": "string" },
+							"text": { "type": "string" },
+							"dataAttributes": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"name": {
+											"type": "string",
+											"enum": [
+												"test",
+												"track",
+												"track-context",
+												"track-value",
+												"track-method",
+												"track-content-type",
+												"track-item-id",
+												"track-type",
+												"track-action",
+												"track-category",
+												"track-label",
+												"track-component"
+											]
+										},
+										"value": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"name",
+										"value"
+									]
+								}
+							}
+						},
+						"required": ["url", "text"]
+					}
+				},
+				"cartTemplate": { "type": "string" }
+			},
+			"required": [
+				"navigationText",
+				"searchText",
+				"iconSearch",
+				"iconMenu",
+				"links"
+			]
+		},
+		"headerAccount": {
+			"type": "object",
+			"properties": {
+				"text": { "type": "string" },
+				"links": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"url": { "type": "string" },
+							"text": { "type": "string" },
+							"dataAttributes": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"name": {
+											"type": "string",
+											"enum": [
+												"test",
+												"track",
+												"track-context",
+												"track-value",
+												"track-method",
+												"track-content-type",
+												"track-item-id",
+												"track-type",
+												"track-action",
+												"track-category",
+												"track-label",
+												"track-component"
+											]
+										},
+										"value": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"name",
+										"value"
+									]
+								}
+							}
+						},
+						"required": ["url", "text"]
+					}
+				}
+			},
+			"required": ["text", "links"]
+		},
+		"headerSearch": {
+			"type": "object",
+			"properties": {
+				"heading": { "type": "string" },
+				"label": { "type": "string" },
+				"ariaLabel": { "type": "string" },
+				"url": { "type": "string" },
+				"text": { "type": "string" },
+				"icon": { "type": "string" },
+				"dataAttributes": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string",
+								"enum": [
+									"test",
+									"track",
+									"track-context",
+									"track-value",
+									"track-method",
+									"track-content-type",
+									"track-item-id",
+									"track-type",
+									"track-action",
+									"track-category",
+									"track-label",
+									"track-component"
+								]
+							},
+							"value": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"name",
+							"value"
+						]
+					}
+				}
+			},
+			"required": ["heading", "label", "url", "text", "icon"]
+		}
+	},
+	"required": ["logo", "loggedIn", "snid"]
+}

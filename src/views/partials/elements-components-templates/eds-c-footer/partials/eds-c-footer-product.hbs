@@ -1,0 +1,14 @@
+	<div class="eds-c-footer__container">
+		<div class="eds-c-footer__grid eds-c-footer__group--separator">
+			{{#each productGroups as |siteNavItem|}}
+			<div class="eds-c-footer__group">
+				<h3 class="eds-c-footer__heading">{{siteNavItem.title}}</h3>
+				<ul class="eds-c-footer__list">
+					{{#each siteNavItem.items}}
+						<li class="eds-c-footer__item"><a class="eds-c-footer__link" href="{{url}}"{{#each dataAttributes}} data-{{name}}="{{value}}"{{/each}}>{{text}}</a></li>
+					{{/each}}
+				</ul>
+			</div>
+			{{/each}}
+		</div>
+	</div>

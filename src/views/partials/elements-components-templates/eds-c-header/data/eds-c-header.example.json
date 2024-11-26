@@ -1,0 +1,243 @@
+{
+  "logo": {
+    "link": "/",
+    "src": "/img/logo-springernature-blue.svg",
+    "alt": "Logo Header",
+    "dataAttributes": [
+      {
+        "name": "track-context",
+        "value": "click logo link"
+      },
+      {
+        "name": "track-content-type",
+        "value": "header"
+      },
+      {
+        "name": "track-label",
+        "value": "header"
+      },
+      {
+        "name": "test",
+        "value": "yes-test"
+      }
+    ]
+  },
+  "loggedIn": true,
+  "snid": true,
+  "snidTemplate": "snid-template-example",
+  "loginLink": {
+      "url": "/login",
+      "text": "Login",
+      "icon": "/img/eds-user-account-medium.svg#eds-i-user-account-medium",
+    "dataAttributes": [
+      {
+        "name": "track-context",
+        "value": "test-login-link"
+      },
+      {
+        "name": "track-content-type",
+        "value": "header"
+      },
+      {
+        "name": "track-label",
+        "value": "header"
+      },
+      {
+        "name": "test",
+        "value": "yes-test"
+      }
+    ]
+  },
+  "accountTitle": "Account",
+  "dataAttributes": [
+    {
+      "name": "track-context",
+      "value": "my account button"
+    },
+    {
+      "name": "track-content-type",
+      "value": "header"
+    },
+    {
+      "name": "track-label",
+      "value": "header"
+    },
+    {
+      "name": "test",
+      "value": "yes-test"
+    }
+  ],
+  "headerNavigation": {
+      "navigationText": "Menu",
+      "searchText": "Search",
+      "iconSearch": "/img/eds-search.svg#eds-i-search",
+      "iconMenu": "/img/eds-menu.svg#eds-i-menu",
+      "links": [
+          {
+              "url": "/find-a-journal-test",
+              "text": "Find a Journal",
+              "dataAttributes": [
+                {
+                  "name": "track-context",
+                  "value": "find-a-journal-link"
+                },
+                {
+                  "name": "track-content-type",
+                  "value": "header"
+                },
+                {
+                  "name": "track-label",
+                  "value": "header"
+                },
+                {
+                  "name": "test",
+                  "value": "yes-test"
+                }
+              ]
+          },
+          {
+            "url": "/publish-with-us-test",
+            "text": "Publish with us",
+            "dataAttributes": [
+              {
+                "name": "track-context",
+                "value": "publish-with-us-test"
+              },
+              {
+                "name": "track-content-type",
+                "value": "header"
+              },
+              {
+                "name": "track-label",
+                "value": "header"
+              },
+              {
+                "name": "test",
+                "value": "yes-test"
+              }
+            ]
+          }
+      ],
+      "cartTemplate": "darwin-header-cart-example"
+  },
+  "headerAccount": {
+    "text": "Account",
+    "links": [
+      {
+        "url": "/login-test",
+        "text": "Access through your institution",
+        "dataAttributes": [
+          {
+            "name": "track-context",
+            "value": "Access through your institution button"
+          },
+          {
+            "name": "track-content-type",
+            "value": "header"
+          },
+          {
+            "name": "track-label",
+            "value": "header"
+          },
+          {
+            "name": "test",
+            "value": "yes-test"
+          }
+        ]
+      },
+      {
+        "url": "/login-test",
+        "text": "My account",
+        "dataAttributes": [
+          {
+            "name": "track-context",
+            "value": "my account test button"
+          },
+          {
+            "name": "track-content-type",
+            "value": "header"
+          },
+          {
+            "name": "track-label",
+            "value": "header"
+          },
+          {
+            "name": "test",
+            "value": "yes-test"
+          }
+        ]
+      },
+      {
+        "url": "/login-test",
+        "text": "My account bookshelf",
+        "dataAttributes": [
+          {
+            "name": "track-context",
+            "value": "my account bookshelf button"
+          },
+          {
+            "name": "track-content-type",
+            "value": "header"
+          },
+          {
+            "name": "track-label",
+            "value": "header"
+          },
+          {
+            "name": "test",
+            "value": "yes-test"
+          }
+        ]
+      },
+      {
+        "url": "/login-test",
+        "text": "logout",
+        "dataAttributes": [
+          {
+            "name": "track-context",
+            "value": "my account test logout button"
+          },
+          {
+            "name": "track-content-type",
+            "value": "header"
+          },
+          {
+            "name": "track-label",
+            "value": "header"
+          },
+          {
+            "name": "test",
+            "value": "yes-test"
+          }
+        ]
+      }
+    ]
+
+  },
+  "headerSearch": {
+    "heading": "Search",
+    "label": "Search by keyword or author",
+    "ariaLabel": "Search from the header",
+    "url": "/search-action",
+    "text": "search text",
+    "icon": "/img/eds-search.svg#eds-i-search",
+    "dataAttributes": [
+      {
+        "name": "track-context",
+        "value": "header search bar input"
+      },
+      {
+        "name": "track-content-type",
+        "value": "header"
+      },
+      {
+        "name": "track-label",
+        "value": "header"
+      },
+      {
+        "name": "test",
+        "value": "yes-test"
+      }
+    ]
+  }
+}
