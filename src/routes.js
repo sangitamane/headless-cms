@@ -25,6 +25,8 @@ async function fetchGraphQL(query) {
 	const data = await response.json();
 	return data;
   }
+
+
   
 // const WPENGINE_PASSWORD = process.env.WPENGINE_PASSWORD;
 // const WPENGINE_USER_ID = process.env.WPENGINE_USER_ID;
@@ -58,7 +60,7 @@ router.get('/posts', async (req, res) => {
 	res.render('posts', { 
 		...data,
 		title: 'Posts from wordpress admin',
-		postsData: data.data.posts.nodes 
+		posts: postsData.data.posts.nodes 
 	});
 
 });
