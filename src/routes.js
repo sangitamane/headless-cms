@@ -7,6 +7,7 @@ const router = new express.Router();
 const environment = process.env.NODE_ENV || 'production';
 
 const data = {
+	...elementsData,
 	production: environment === 'production',
 	// language: 'en'
 };
@@ -25,10 +26,10 @@ async function fetchGraphQL(query) {
 	return data;
   }
   
-const WPENGINE_PASSWORD = process.env.WPENGINE_PASSWORD;
-const WPENGINE_USER_ID = process.env.WPENGINE_USER_ID;
+// const WPENGINE_PASSWORD = process.env.WPENGINE_PASSWORD;
+// const WPENGINE_USER_ID = process.env.WPENGINE_USER_ID;
 
-const authorization = "Basic " + Buffer.from(WPENGINE_USER_ID + ":" + WPENGINE_PASSWORD).toString('base64')
+// const authorization = "Basic " + Buffer.from(WPENGINE_USER_ID + ":" + WPENGINE_PASSWORD).toString('base64')
 
 router.get('/', (request, res) => {
 	res.render('home', {
@@ -53,11 +54,11 @@ router.get('/posts', async (req, res) => {
 			}
 		}
 		`;
-	const data = await fetchGraphQL(query);
+	const postsData = await fetchGraphQL(query);
 	res.render('posts', { 
+		...data,
 		title: 'Posts from wordpress admin',
-		posts: data.data.posts.nodes 
-	
+		postsData: data.data.posts.nodes 
 	});
 
 });
