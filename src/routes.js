@@ -11,6 +11,25 @@ const data = {
 	// language: 'en'
 };
 
+const GRAPHQL_ENDPOINT = 'https://cmsadmin1.wpenginepowered.com/graphql'
+
+async function fetchGraphQL(query) {
+	const response = await fetch(GRAPHQL_ENDPOINT, {
+	  method: 'POST',
+	  headers: {
+		'Content-Type': 'application/json',
+	  },
+	  body: JSON.stringify({ query }),
+	});
+	const data = await response.json();
+	return data;
+  }
+  
+const WPENGINE_PASSWORD = process.env.WPENGINE_PASSWORD;
+const WPENGINE_USER_ID = process.env.WPENGINE_USER_ID;
+
+const authorization = "Basic " + Buffer.from(WPENGINE_USER_ID + ":" + WPENGINE_PASSWORD).toString('base64')
+
 router.get('/', (request, res) => {
 	res.render('home', {
 		...data,
@@ -18,39 +37,28 @@ router.get('/', (request, res) => {
 	});
 });
 
-const API_BASE_URL = 'https://h84zz5jyx27wb61qlhm4de16i.js.wpenginepowered.com/wp-json/wp/v2';
+
 
 // Example route to fetch posts
 router.get('/posts', async (req, res) => {
-	try {
-		const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || API_BASE_URL;
-		const response = await fetch(`${apiUrl}/posts`);
-	  if (!response.ok) {
-		throw new Error(`Error fetching posts: ${response.statusText}`);
-	  }
-	  const posts = await response.json();
-	  res.render('posts', { title: 'Blog Posts', posts });
-	} catch (error) {
-	  res.status(500).json({ error: error.message });
-	}
+	const query = `
+		{
+			posts {
+				nodes {
+					id
+					title
+					content
+					date
+				}
+			}
+		}
+		`;
+  	const data = await fetchGraphQL(query);
+  	res.json(data.data.posts.nodes);
   });
   
   // Fetch and display pages
-  router.get('/pages', async (req, res) => {
-	try {
-		const apiUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || API_BASE_URL;
-
-		const response = await fetch(`${apiUrl}/pages`);
-
-	  if (!response.ok) {
-		throw new Error(`Error fetching pages: ${response.statusText}`);
-	  }
-	  const pages = await response.json();
-	  res.render('pages', { title: 'Pages', pages });
-	} catch (error) {
-	  res.status(500).json({ error: error.message });
-	}
-  });
+  
   
 
 export {router};
