@@ -1,4 +1,5 @@
 import express from 'express';
+import {elementsData} from './elements-data.js';
 import fetch from 'node-fetch';
 
 
