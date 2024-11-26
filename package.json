@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
-    "build:elements": "node take-elements-templates",
     "build:css": "sass --load-path=node_modules/@springernature/elements --style=expanded ./src/assets/scss:./public/css",
     "copy:img": "mkdir -p public && cp -r src/assets/img public/img",
     "build": "npm-run-all copy:* --parallel build:*",
