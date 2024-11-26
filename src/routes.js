@@ -15,11 +15,11 @@ const GRAPHQL_ENDPOINT = 'https://cmsadmin1.wpenginepowered.com/graphql'
 
 async function fetchGraphQL(query) {
 	const response = await fetch(GRAPHQL_ENDPOINT, {
-	  method: 'POST',
-	  headers: {
-		'Content-Type': 'application/json',
-	  },
-	  body: JSON.stringify({ query }),
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ query }),
 	});
 	const data = await response.json();
 	return data;
@@ -53,12 +53,8 @@ router.get('/posts', async (req, res) => {
 			}
 		}
 		`;
-  	const data = await fetchGraphQL(query);
-  	res.json(data.data.posts.nodes);
-  });
-  
-  // Fetch and display pages
-  
-  
+	const data = await fetchGraphQL(query);
+	res.render('posts', { posts: data.data.posts.nodes });
+});
 
 export {router};
