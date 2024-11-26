@@ -24,7 +24,7 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 app.set('views', join(__dirname, '/views'));
 
-app.use('/', express.static(`${__dirname}/public`));
+app.use(express.static(join(__dirname, '..', 'public')));
 app.use(router);
 
 app.listen(port, () => {

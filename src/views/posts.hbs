@@ -1,10 +1,14 @@
-<h1>Posts</h1>
-  <ul>
+<div class="l-stack" style="--stack--gap: 1.5rem;">
     {{#each posts}}
-      <li>
-        <h2>{{this.title}}</h2>
-        <div>{{{this.content}}}</div>
-        <small>{{this.date}}</small>
-      </li>
+      <div class="eds-c-card-composable eds-c-card-composable--faux-link eds-c-card-composable--horizontal">
+        <div class="eds-c-card-composable__container eds-c-card-composable__container--to-sidebar">
+			<div class="eds-c-card-composable__body">
+				<div class="eds-c-card-composable__content">
+					<h2>{{this.title}}</h2>
+					 {{{this.content}}}
+				</div>
+			</div>
+        </div>
+      </div>
     {{/each}}
-  </ul>
+</div>

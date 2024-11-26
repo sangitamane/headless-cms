@@ -55,6 +55,7 @@ router.get('/posts', async (req, res) => {
 		`;
 	const data = await fetchGraphQL(query);
 	res.render('posts', { posts: data.data.posts.nodes });
+
 });
 
 export {router};

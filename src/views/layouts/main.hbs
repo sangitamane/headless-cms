@@ -7,10 +7,18 @@
         <link rel="icon" href="/img/favicon.ico">
         {{!-- <link href="/css/examples.css" rel="stylesheet"> --}}
         {{> scripts/head}}
+        <link rel="stylesheet" href="/css/home.css">
     </head>
     <body>
-        <h1>{{title}}</h1>
-        {{{body}}}
+        {{#with eds-c-header}}
+            {{> elements-components-templates/eds-c-header/eds-c-header }}
+        {{/with}}
+        <main style="padding-bottom: 48px">
+            <div class="u-container">
+                <h1>{{title}}</h1>
+            </div>
+            {{{body}}}
+        </main>
         {{> scripts/body}}
     </body>
 </html>
